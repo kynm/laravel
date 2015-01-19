@@ -62,5 +62,11 @@ class BlogController extends BaseController
         Auth::logout();
         return Redirect::to('/');
     }
-
+    public function getCharJs()
+    {
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
+        $this->layout->title = 'CharJs';
+        $this->layout->main = View::make('home')
+            ->nest('content', 'charjs', ($posts->isEmpty()) ? ['notFound' => true] : compact('posts'));
+    }
 }
