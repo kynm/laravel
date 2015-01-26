@@ -44,6 +44,8 @@ Route::group(['prefix' => 'admin', 'before' => 'auth'], function () {
     Route::post('/comment/{comment}/update', ['as' => 'comment.update', 'uses' => 'CommentController@updateComment']);
 
 });
+Route::get('register', 'BlogController@create');
+Route::post('users', 'BlogController@store');
 
 /* Home routes */
 Route::controller('/', 'BlogController');

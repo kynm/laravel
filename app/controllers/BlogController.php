@@ -56,6 +56,32 @@ class BlogController extends BaseController
             return Redirect::back()->withErrors($validator)->withInput();
         }
     }
+    public function create()
+    {
+        $this->layout->title = 'Home Page | Laravel 4 Blog';
+        $this->layout->main = View::make('home')->nest('content', 'signup');
+    }
+
+    /**
+     * Stores new account
+     *
+     * @return  Illuminate\Http\Response
+     */
+    public function store()
+    {
+        $this->layout->title = 'Home Page | Laravel 4 Blog';
+        $validator = Validator::make(Input::all(), User::$rules);
+        if ($validator->passes()) {
+            $user = new User;
+            $user->username = Input::get('username');
+            $user->email = Input::get('email');
+            $user->password = Hash::make(Input::get('password'));
+            $user->save();
+            $this->layout->main = View::make('home')->nest('content', 'login'); 
+        } else {
+            $this->layout->main = View::make('home')->nest('content', 'signup'); 
+        }
+    }
 
     public function getLogout()
     {
